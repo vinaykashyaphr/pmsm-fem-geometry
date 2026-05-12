@@ -22,27 +22,44 @@ set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_library(eigen INTERFACE)
 target_include_directories(eigen INTERFACE
-    ${CMAKE_SOURCE_DIR}/deps/eigen-5.0.0
+    ${CMAKE_SOURCE_DIR}/deps/eigen
 )
 
 
 add_library(gmsh SHARED IMPORTED)
 target_include_directories(gmsh INTERFACE
-    ${CMAKE_SOURCE_DIR}/deps/gmsh-4.15.2-Linux64-sdk/include
+    ${CMAKE_SOURCE_DIR}/deps/gmsh/include
 )
+
+
+if(APPLE)
+
+    set(GMSH_LIB ${CMAKE_SOURCE_DIR}/deps/gmsh/lib/libgmsh.dylib)
+
+elseif(UNIX)
+
+    set(GMSH_LIB ${CMAKE_SOURCE_DIR}/deps/gmsh/lib/libgmsh.so)
+
+endif()
 
 
 set_target_properties(gmsh PROPERTIES
-    IMPORTED_LOCATION
-    ${CMAKE_SOURCE_DIR}/deps/gmsh-4.15.2-Linux64-sdk/lib/libgmsh.so
+    IMPORTED_LOCATION ${GMSH_LIB}
 )
-
 
 # Executable
 
 add_executable(
     simple_inrunner
     ${SRC_DIR}/main.cpp
+    ${SRC_DIR}/stator/derived_params.cpp
+    ${SRC_DIR}/stator/builders.cpp
+)
+
+
+target_include_directories(
+    simple_inrunner
+    PRIVATE ${INCLUDE_DIR}
 )
 
 
