@@ -1,5 +1,4 @@
 # include <gmsh.h>
-#include <iostream>
 
 # include "stator/builders.hpp"
 # include "airgap/builders.hpp"
