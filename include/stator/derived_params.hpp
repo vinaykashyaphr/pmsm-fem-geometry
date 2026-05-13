@@ -1,6 +1,6 @@
 # pragma once
 
-# include "stator/params.hpp"
+# include "params.hpp"
 
 
 

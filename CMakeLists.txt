@@ -54,6 +54,8 @@ add_executable(
     ${SRC_DIR}/main.cpp
     ${SRC_DIR}/stator/derived_params.cpp
     ${SRC_DIR}/stator/builders.cpp
+    ${SRC_DIR}/airgap/builders.cpp
+    ${SRC_DIR}/mesh_builder.cpp
 )
 
 

@@ -34,9 +34,38 @@ class StatorParams {
         // Number of Slots
         const int n_s                       = 18;
 
+        // Mesh Size
+        const double s_mesh_min                 = 0.5;
+        const double s_mesh_max                 = 2.0;
+
 
     constexpr double deg2rad(double degrees) {
         return degrees * (std::numbers::pi / 180.0);
     }
+
+};
+
+
+
+class AirGapParams {
+
+    public:
+
+        // Airgap width
+        const double g          = 0.5;
+
+        // Airgap mesh size
+        const double mesh_size  = 0.1;
+
+};
+
+
+
+class RotorParams {
+
+    public:
+
+        // Rotor inner radius
+        const double r_ri = 80.5;
 
 };

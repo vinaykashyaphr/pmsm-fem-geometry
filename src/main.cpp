@@ -1,18 +1,40 @@
 # include <gmsh.h>
+#include <iostream>
 
 # include "stator/builders.hpp"
+# include "airgap/builders.hpp"
+# include "params.hpp"
+# include "stator/derived_params.hpp"
+# include "mesh_builder.hpp"
 
 
 
 int main() {
 
+    StatorParams stator_params;
+    DerivedStatorParams derived_stator_params;
+    AirGapParams airgap_params;
+    RotorParams rotor_params;
+
     gmsh::initialize();
     gmsh::model::add("outrunner");
 
-    StatorBuilders stator_builders;
+    StatorBuilders stator_builders(derived_stator_params);
+    stator_builders.build();
+
+    AirGapBuilders airgap_builders(stator_params, airgap_params, rotor_params);
+    airgap_builders.build();
 
     gmsh::model::occ::synchronize();
+    
+    MeshBuilder mesh;
 
+    mesh.add_region(stator_builders.field());
+    mesh.add_region(airgap_builders.field());
+    mesh.generate();
+
+    gmsh::fltk::run();
+    gmsh::finalize();
 
     // int g_origin = model::addPhysicalGroup(0, {p_origin});
     // model::setPhysicalName(0, g_origin, "Origin");
@@ -43,9 +65,5 @@ int main() {
 
     // int g_slot_p8 = model::addPhysicalGroup(0, {slot_point_tags.at(7)});
     // model::setPhysicalName(0, g_slot_p8, "P8");
-
-    gmsh::model::mesh::generate(2);
-    gmsh::fltk::run();
-    gmsh::finalize();
 
 }

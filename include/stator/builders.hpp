@@ -1,6 +1,8 @@
 # pragma once
 
 # include <array>
+# include <string>
+
 # include <gmsh.h>
 
 # include "stator/derived_params.hpp"
@@ -9,8 +11,7 @@
 
 class StatorBuilders {
 
-
-    DerivedStatorParams _params;
+    DerivedStatorParams& _s;
 
     std::array<int, 8> _slot_vertices{};
     std::vector<std::pair<int, int>> _all_slots{};
@@ -27,10 +28,10 @@ class StatorBuilders {
     void replicate_slots();
     void cut_slot_profiles();
 
-    void build();
-
-
     public:
-        explicit StatorBuilders();
+        explicit StatorBuilders(DerivedStatorParams& s);
+        void build();
+        std::string field() const;
+        
 
 };
