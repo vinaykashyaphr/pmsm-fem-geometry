@@ -52,9 +52,12 @@ set_target_properties(gmsh PROPERTIES
 add_executable(
     simple_outrunner
     ${SRC_DIR}/main.cpp
-    ${SRC_DIR}/stator/derived_params.cpp
+    ${SRC_DIR}/origin/builders.cpp
     ${SRC_DIR}/stator/builders.cpp
+    ${SRC_DIR}/stator/derived_params.cpp
     ${SRC_DIR}/airgap/builders.cpp
+    ${SRC_DIR}/rotor/builders.cpp
+    ${SRC_DIR}/rotor/derived_params.cpp
     ${SRC_DIR}/mesh_builder.cpp
     ${SRC_DIR}/naming.cpp
     ${SRC_DIR}/params.cpp

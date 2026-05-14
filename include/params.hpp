@@ -1,20 +1,30 @@
 # pragma once
 
-# include <array>
 # include <numbers>
 
 
 
 namespace params {
 
+
+
     constexpr double deg2rad(double degrees) {
         return degrees * (std::numbers::pi / 180);
     }
 
-    struct StatorParams {
 
-        /// Origin for cartesian coordinate
-        const std::array<double, 3> origin  = {0.0, 0.0, 0.0};
+
+    struct OriginParams {
+
+        const double x = 0.0;
+        const double y = 0.0;
+        const double z = 0.0;
+
+    };
+
+
+
+    struct StatorParams {
 
         // Stator outer radius
         const double r_so                   = 80.0;

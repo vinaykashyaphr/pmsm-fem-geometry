@@ -11,6 +11,7 @@ class AirGapBuilders {
 
     int _s_airgap = 0;
 
+    const params::OriginParams&  _o;
     const params::StatorParams&  _s;
     const params::AirGapParams&  _a;
     const params::RotorParams&   _r;
@@ -18,9 +19,10 @@ class AirGapBuilders {
     public:
 
         explicit AirGapBuilders(
+            const params::OriginParams& o, 
             const params::StatorParams& s, 
-            const params::AirGapParams& a, 
-            const params::RotorParams& r
+            const params::AirGapParams& a,
+            const params::RotorParams&  r
         );
 
         void build();

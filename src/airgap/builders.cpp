@@ -12,11 +12,12 @@ namespace occ = model::occ;
 
 
 AirGapBuilders::AirGapBuilders(
+    const params::OriginParams& o, 
     const params::StatorParams& s, 
-    const params::AirGapParams& a, 
+    const params::AirGapParams& a,
     const params::RotorParams&  r
 ):
-    _s(s), _a(a), _r(r)
+    _o(o), _s(s), _a(a), _r(r)
 {
 
     std::cout << "Building Air gap ..." << '\n';
@@ -28,17 +29,17 @@ AirGapBuilders::AirGapBuilders(
 void AirGapBuilders::build() {
 
     int s_airgap_outer = occ::addDisk(
-        _s.origin.at(0), 
-        _s.origin.at(1), 
-        _s.origin.at(2), 
+        _o.x, 
+        _o.y, 
+        _o.z, 
         _r.r_ri,
         _r.r_ri
     );
 
     int s_airgap_inner = occ::addDisk(
-        _s.origin.at(0),
-        _s.origin.at(1),
-        _s.origin.at(2),
+        _o.x, 
+        _o.y, 
+        _o.z, 
         _s.r_so,
         _s.r_so
     );
@@ -74,6 +75,9 @@ std::string AirGapBuilders::field() const {
 }
 
 
+
 std::pair<int, int> AirGapBuilders::s_airgap() const {
     return {2, _s_airgap};
 }
+
+

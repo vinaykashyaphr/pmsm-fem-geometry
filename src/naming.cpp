@@ -5,12 +5,12 @@
 namespace model = gmsh::model;
 
 
-GroupNamer::GroupNamer(StatorBuilders& sb, AirGapBuilders& ab): 
-    _sb(sb), _ab(ab), _names {
+GroupNamer::GroupNamer(const OriginBuilder& ob, const StatorBuilders& sb, const AirGapBuilders& ab): 
+    _ob(ob), _sb(sb), _ab(ab), _names {
 
-        {"origin", _sb.p_origin()},
+        {"origin", {_ob.p_origin()}},
         {"stator", _sb.s_stator_slotted()},
-        {"airgap", _ab.s_airgap()}
+        {"airgap", {_ab.s_airgap()}}
 
     }
 {}
@@ -19,10 +19,17 @@ GroupNamer::GroupNamer(StatorBuilders& sb, AirGapBuilders& ab):
 
 void GroupNamer::start_naming() {
 
-    for (const auto& [name, attrib] : _names) {
+    for (const auto& [name, regions] : _names) {
 
-        int group = model::addPhysicalGroup(attrib.first, {attrib.second});
-        model::setPhysicalName(attrib.first, group, name);
+        std::unordered_map<int, std::vector<int>> by_dim;
+        for (const auto& [dim, tag] : regions) {
+            by_dim[dim].push_back(tag);
+        }
+
+        for (const auto& [dim, tags] : by_dim) {
+            int group = model::addPhysicalGroup(dim, tags);
+            model::setPhysicalName(dim, group, name);
+        }
 
     }
 

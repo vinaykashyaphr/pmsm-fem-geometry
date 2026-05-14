@@ -26,28 +26,6 @@ void MeshBuilder::add_region(const std::string expr) {
 
 }
 
-    // return std::format(
-    //     "({3} + {4} * ({1} - sqrt(x*x+y*y)) / ({1} - {5}))"
-    //     "* ({0} <= {1} * {0} >= {2})"
-    //     "+ 1e10 * (1 - ({0} <= {1} * {0} >= {2}))",
-    //     "sqrt(x*x+y*y)",
-    //     _s.r_so,
-    //     _s.r_si,
-    //     _s.s_mesh_min,
-    //     _s.s_mesh_max - _s.s_mesh_min,
-    //     _s.r_sb()
-    // );
-
-
-    // return std::format(
-    //     "{3}"
-    //     "* ({0} <= {1} * {0} >= {2})"
-    //     "+ 1e10 * (1 - ({0} <= {1} * {0} >= {2}))",
-    //     "sqrt(x*x+y*y)",
-    //     _r.r_ri,
-    //     _s.r_so,
-    //     std::to_string(_a.mesh_size)
-    // );
 
 
 void MeshBuilder::generate() {

@@ -29,9 +29,7 @@ class DerivedStatorParams : public params::StatorParams {
     void compute_theta_sn();
     void compute_r_sb();
     void compute_theta_sb();
-
     void compute();
-
 
     public:
 

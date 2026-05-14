@@ -11,21 +11,11 @@ namespace occ = model::occ;
 
 
 
-StatorBuilders::StatorBuilders(DerivedStatorParams& s): _s(s) {
+StatorBuilders::StatorBuilders(const DerivedStatorParams& s, const params::OriginParams& o, const OriginBuilder& ob): 
+    _s(s), _o(o), _ob(ob)
+{
 
     std::cout << "Building Stator ..." << '\n';
-
-}
-
-
-
-void StatorBuilders::build_origin() {
-
-    _p_origin = occ::addPoint(
-        _s.origin.at(0),
-        _s.origin.at(1),
-        _s.origin.at(2)
-    );
 
 }
 
@@ -34,17 +24,17 @@ void StatorBuilders::build_origin() {
 void StatorBuilders::build_stator_annulus() {
 
     int s_stator_outer = occ::addDisk(
-        _s.origin.at(0), 
-        _s.origin.at(1), 
-        _s.origin.at(2), 
+        _o.x, 
+        _o.y, 
+        _o.z, 
         _s.r_so,
         _s.r_so
     );
 
     int s_stator_inner = occ::addDisk(
-        _s.origin.at(0),
-        _s.origin.at(1),
-        _s.origin.at(2),
+        _o.x, 
+        _o.y, 
+        _o.z, 
         _s.r_si,
         _s.r_si
     );
@@ -59,7 +49,7 @@ void StatorBuilders::build_stator_annulus() {
         stator_cut_result_map
     );
 
-    _s_stator = stator_cut_result[0].second;
+    _s_stator = stator_cut_result.at(0).second;
 
 }
 
@@ -118,7 +108,7 @@ void StatorBuilders::build_slot_profile() {
     // Arc P4->P5->P6: the slot opening is an arc centered at origin, not taking chord
     int slot_open_arc  = occ::addCircleArc(
         _slot_vertices.at(3), 
-        _p_origin, 
+        _ob.p_origin().second, 
         _slot_vertices.at(5)
     );
 
@@ -164,17 +154,14 @@ void StatorBuilders::replicate_slots() {
 
 void StatorBuilders::cut_slot_profiles() {
 
-    std::vector<std::pair<int,int>> slot_cut_result;
     std::vector<std::vector<std::pair<int,int>>> slot_cut_map;
 
     occ::cut(
         {{2, _s_stator}},
         _all_slots,
-        slot_cut_result,
+        _s_stator_slotted,
         slot_cut_map
     );
-
-    _s_stator_slotted = slot_cut_result[0].second;
 
 }
 
@@ -182,7 +169,6 @@ void StatorBuilders::cut_slot_profiles() {
 
 void StatorBuilders::build() {
 
-    build_origin();
     build_stator_annulus();
     build_slot_vertices();
     build_slot_profile();
@@ -214,13 +200,8 @@ std::string StatorBuilders::field() const {
 
 
 
-std::pair<int, int> StatorBuilders::p_origin() const {
-    return {0, _p_origin};
+std::vector<std::pair<int,int>> StatorBuilders::s_stator_slotted() const {
+    return _s_stator_slotted;
 }
 
-
-
-std::pair<int, int> StatorBuilders::s_stator_slotted() const {
-    return {2, _s_stator_slotted};
-}
 
