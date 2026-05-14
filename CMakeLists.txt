@@ -4,9 +4,9 @@ cmake_minimum_required(VERSION 3.20)
 # SETUP
 
 project(
-    simple_inrunner 
+    simple_outrunner
     VERSION 1.0
-    DESCRIPTION "FEM Solver for simple inrunner PMSM"
+    DESCRIPTION "FEM Solver for simple outrunner PMSM"
     LANGUAGES CXX
     )
 
@@ -50,7 +50,7 @@ set_target_properties(gmsh PROPERTIES
 # Executable
 
 add_executable(
-    simple_inrunner
+    simple_outrunner
     ${SRC_DIR}/main.cpp
     ${SRC_DIR}/stator/derived_params.cpp
     ${SRC_DIR}/stator/builders.cpp
@@ -62,13 +62,13 @@ add_executable(
 
 
 target_include_directories(
-    simple_inrunner
+    simple_outrunner
     PRIVATE ${INCLUDE_DIR}
 )
 
 
 target_link_libraries(
-    simple_inrunner 
+    simple_outrunner 
     PRIVATE eigen 
     PRIVATE gmsh
 )
