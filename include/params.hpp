@@ -5,10 +5,13 @@
 
 
 
+namespace params {
 
-class StatorParams {
+    constexpr double deg2rad(double degrees) {
+        return degrees * (std::numbers::pi / 180);
+    }
 
-    public:
+    struct StatorParams {
 
         /// Origin for cartesian coordinate
         const std::array<double, 3> origin  = {0.0, 0.0, 0.0};
@@ -35,21 +38,14 @@ class StatorParams {
         const int n_s                       = 18;
 
         // Mesh Size
-        const double s_mesh_min                 = 0.5;
-        const double s_mesh_max                 = 2.0;
+        const double s_mesh_min             = 0.5;
+        const double s_mesh_max             = 2.0;
 
-
-    constexpr double deg2rad(double degrees) {
-        return degrees * (std::numbers::pi / 180.0);
-    }
-
-};
+    };
 
 
 
-class AirGapParams {
-
-    public:
+    struct AirGapParams {
 
         // Airgap width
         const double g          = 0.5;
@@ -57,15 +53,27 @@ class AirGapParams {
         // Airgap mesh size
         const double mesh_size  = 0.1;
 
-};
+    };
 
 
 
-class RotorParams {
-
-    public:
+    struct RotorParams {
 
         // Rotor inner radius
-        const double r_ri = 80.5;
+        const double r_ri       = 80.5;
+        
+        // Rotor outer radius
+        const double r_ro       = 93.5;
 
-};
+        // Rotor magnet thickness
+        const double l_m        = 3.0;
+
+        // Rotor magnet arc
+        const double theta_m    = deg2rad(17);
+
+        // Number of poles
+        const double n_m        = 20;
+
+    };
+
+}

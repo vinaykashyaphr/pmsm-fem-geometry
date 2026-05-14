@@ -4,7 +4,7 @@
 
 
 
-class DerivedStatorParams : public StatorParams {
+class DerivedStatorParams : public params::StatorParams {
 
     double _theta_p    = 0.0;
     double _theta_o    = 0.0;

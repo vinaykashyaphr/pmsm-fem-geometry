@@ -1,7 +1,7 @@
 # pragma once
 
 # include <string>
-#include <utility>
+# include <utility>
 
 # include "params.hpp"
 
@@ -11,12 +11,18 @@ class AirGapBuilders {
 
     int _s_airgap = 0;
 
-    const StatorParams&  _s;
-    const AirGapParams&  _a;
-    const RotorParams&   _r;
+    const params::StatorParams&  _s;
+    const params::AirGapParams&  _a;
+    const params::RotorParams&   _r;
 
     public:
-        explicit AirGapBuilders(const StatorParams& s, const AirGapParams& a, const RotorParams& r);
+
+        explicit AirGapBuilders(
+            const params::StatorParams& s, 
+            const params::AirGapParams& a, 
+            const params::RotorParams& r
+        );
+
         void build();
         std::string field() const;
 

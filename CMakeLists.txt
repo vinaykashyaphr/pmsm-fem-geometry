@@ -57,6 +57,7 @@ add_executable(
     ${SRC_DIR}/airgap/builders.cpp
     ${SRC_DIR}/mesh_builder.cpp
     ${SRC_DIR}/naming.cpp
+    ${SRC_DIR}/params.cpp
 )
 
 

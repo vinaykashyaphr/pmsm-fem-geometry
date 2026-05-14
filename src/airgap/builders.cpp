@@ -11,7 +11,11 @@ namespace occ = model::occ;
 
 
 
-AirGapBuilders::AirGapBuilders(const StatorParams& s, const AirGapParams& a, const RotorParams& r):
+AirGapBuilders::AirGapBuilders(
+    const params::StatorParams& s, 
+    const params::AirGapParams& a, 
+    const params::RotorParams&  r
+):
     _s(s), _a(a), _r(r)
 {
 

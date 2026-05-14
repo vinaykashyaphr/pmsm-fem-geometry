@@ -14,10 +14,10 @@ namespace model = gmsh::model;
 
 int main() {
 
-    StatorParams stator_params;
+    params::StatorParams stator_params;
+    params::AirGapParams airgap_params;
+    params::RotorParams rotor_params;
     DerivedStatorParams derived_stator_params;
-    AirGapParams airgap_params;
-    RotorParams rotor_params;
 
     gmsh::initialize();
     model::add("outrunner");
