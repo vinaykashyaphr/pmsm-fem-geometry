@@ -68,3 +68,8 @@ std::string AirGapBuilders::field() const {
     );
 
 }
+
+
+std::pair<int, int> AirGapBuilders::s_airgap() const {
+    return {2, _s_airgap};
+}

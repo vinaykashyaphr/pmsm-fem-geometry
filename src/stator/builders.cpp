@@ -213,3 +213,14 @@ std::string StatorBuilders::field() const {
 }
 
 
+
+std::pair<int, int> StatorBuilders::p_origin() const {
+    return {0, _p_origin};
+}
+
+
+
+std::pair<int, int> StatorBuilders::s_stator_slotted() const {
+    return {2, _s_stator_slotted};
+}
+

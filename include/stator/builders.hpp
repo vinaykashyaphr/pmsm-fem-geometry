@@ -4,6 +4,7 @@
 # include <string>
 
 # include <gmsh.h>
+#include <utility>
 
 # include "stator/derived_params.hpp"
 
@@ -17,9 +18,10 @@ class StatorBuilders {
     std::vector<std::pair<int, int>> _all_slots{};
 
     int _p_origin           = 0;
+    int _s_stator_slotted   = 0;
+
     int _s_stator           = 0;
     int _s_slot             = 0;
-    int _s_stator_slotted   = 0;
 
     void build_origin();
     void build_stator_annulus();
@@ -32,6 +34,9 @@ class StatorBuilders {
         explicit StatorBuilders(DerivedStatorParams& s);
         void build();
         std::string field() const;
+
+        std::pair<int, int> p_origin() const;
+        std::pair<int, int> s_stator_slotted() const;
         
 
 };
