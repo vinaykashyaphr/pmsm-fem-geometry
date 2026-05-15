@@ -83,33 +83,6 @@ Opens the GMSH GUI displaying the generated 2D motor cross-section mesh.
 
 ---
 
-## Project Structure
-
-```
-pmsm-fem-geometry/
-├── CMakeLists.txt
-├── include/
-│   ├── params.hpp               # Primary motor parameters
-│   ├── mesh_builder.hpp         # Mesh generation
-│   ├── naming.hpp               # Physical group naming
-│   ├── stator/
-│   │   ├── builders.hpp
-│   │   └── derived_params.hpp   # Derived angular parameters
-│   ├── airgap/
-│   │   └── builders.hpp
-│   └── rotor/
-│       └── builders.hpp
-└── src/
-    ├── main.cpp
-    ├── stator/
-    ├── airgap/
-    ├── mesh_builder.cpp
-    ├── naming.cpp
-    └── params.cpp
-```
-
----
-
 ## Status
 
 Geometry and mesh generation — complete.
