@@ -84,6 +84,14 @@ namespace params {
         // Number of poles
         const double n_m        = 20;
 
+        // PM mesh size
+        const double pm_mesh_min             = 0.3;
+        const double pm_mesh_max             = 1.0;
+
+        // Yoke mesh size
+        const double yoke_mesh_min             = 1.0;
+        const double yoke_mesh_max             = 3.0;
+
     };
 
 }

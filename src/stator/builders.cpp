@@ -195,7 +195,6 @@ std::string StatorBuilders::field() const {
         _s.r_sb()
     );
 
-
 }
 
 

@@ -1,4 +1,5 @@
 # include <iostream>
+# include <format>
 
 # include <gmsh.h>
 
@@ -180,6 +181,43 @@ void RotorBuilders::build() {
     cut_polegap_profiles();
 
 }
+
+
+std::string RotorBuilders::field_yoke() const {
+
+    // lc(r) = lcmin​ + ((lcmax ​− lcmin​) * (r - r_min / (​r_max ​− r_min))​)
+    // r = sqrt(x*x + y*y)
+    return std::format(
+        "({3} + {4} * ({0} - {1}) / ({2} - {1})) "
+        "* (((Sign({0} - {1}) + 1) / 2) * ((Sign({2} - {0}) + 1) / 2))"
+        "+ 1e8 * (1 - (((Sign({0} - {1}) + 1) / 2) * ((Sign({2} - {0}) + 1) / 2)))",
+        "sqrt(x*x+y*y)",
+        _r.r_mo(),
+        _r.r_ro,
+        _r.yoke_mesh_min,
+        _r.yoke_mesh_max - _r.yoke_mesh_min
+    );
+
+}
+
+
+std::string RotorBuilders::field_pm() const {
+
+    // lc(r) = lcmin​ + ((lcmax ​− lcmin​) * (r - r_min / (​r_max ​− r_min))​)
+    // r = sqrt(x*x + y*y)
+    return std::format(
+        "({3} + {4} * ({0} - {1}) / ({2} - {1})) "
+        "* (((Sign({0} - {1}) + 1) / 2) * ((Sign({2} - {0}) + 1) / 2))"
+        "+ 1e8 * (1 - (((Sign({0} - {1}) + 1) / 2) * ((Sign({2} - {0}) + 1) / 2)))",
+        "sqrt(x*x+y*y)",
+        _r.r_ri,
+        _r.r_mo(),
+        _r.pm_mesh_min,
+        _r.pm_mesh_max - _r.pm_mesh_min
+    );
+
+}
+
 
 
 

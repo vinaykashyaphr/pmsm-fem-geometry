@@ -37,7 +37,8 @@ class RotorBuilders {
         void cut_polegap_profiles();
         void build();
 
-        std::string field() const;
+        std::string field_yoke() const;
+        std::string field_pm() const;
 
         std::vector<std::pair<int,int>> s_rotor_cut() const;
         std::pair<int, int> s_rotor_back() const;

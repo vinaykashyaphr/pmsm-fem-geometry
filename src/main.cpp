@@ -65,6 +65,8 @@ int main() {
     MeshBuilder mesh;
     mesh.add_region(stator_builders.field());
     mesh.add_region(airgap_builders.field());
+    mesh.add_region(rotor_builders.field_pm());
+    mesh.add_region(rotor_builders.field_yoke());
     mesh.generate();
 
     GroupNamer namer(origin_builder, stator_builders, airgap_builders);
