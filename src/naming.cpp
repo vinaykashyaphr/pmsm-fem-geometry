@@ -1,16 +1,19 @@
 # include <gmsh.h>
 # include "naming.hpp"
+#include "rotor/builders.hpp"
 
 
 namespace model = gmsh::model;
 
 
-GroupNamer::GroupNamer(const OriginBuilder& ob, const StatorBuilders& sb, const AirGapBuilders& ab): 
-    _ob(ob), _sb(sb), _ab(ab), _names {
+GroupNamer::GroupNamer(const OriginBuilder& ob, const StatorBuilders& sb, const AirGapBuilders& ab, const RotorBuilders& rb): 
+    _ob(ob), _sb(sb), _ab(ab), _rb(rb), _names {
 
         {"origin", {_ob.p_origin()}},
         {"stator", _sb.s_stator_slotted()},
-        {"airgap", {_ab.s_airgap()}}
+        {"airgap", {_ab.s_airgap()}},
+        {"poles", {_rb.s_rotor_cut()}},
+        {"yoke", {_rb.s_rotor_back()}}
 
     }
 {}

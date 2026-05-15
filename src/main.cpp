@@ -69,7 +69,7 @@ int main() {
     mesh.add_region(rotor_builders.field_yoke());
     mesh.generate();
 
-    GroupNamer namer(origin_builder, stator_builders, airgap_builders);
+    GroupNamer namer(origin_builder, stator_builders, airgap_builders, rotor_builders);
     namer.start_naming();
 
     gmsh::fltk::run();
