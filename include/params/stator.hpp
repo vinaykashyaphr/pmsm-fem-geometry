@@ -1,10 +1,12 @@
 # pragma once
 
-# include "params.hpp"
+# include "config/config.hpp"
 
 
 
-class DerivedStatorParams : public params::StatorParams {
+class DerivedStatorConfig {
+
+    const StatorConfig& _cfg;
 
     double _theta_p    = 0.0;
     double _theta_o    = 0.0;
@@ -33,7 +35,7 @@ class DerivedStatorParams : public params::StatorParams {
 
     public:
 
-        explicit DerivedStatorParams();
+        explicit DerivedStatorConfig(const StatorConfig& cfg);
 
         double theta_p()    const;
         double theta_o()    const;

@@ -3,7 +3,7 @@
 
 # include <gmsh.h>
 
-# include "stator/builders.hpp"
+# include "builders/stator.hpp"
 
 
 namespace model = gmsh::model;
@@ -11,8 +11,8 @@ namespace occ = model::occ;
 
 
 
-StatorBuilders::StatorBuilders(const DerivedStatorParams& s, const params::OriginParams& o, const OriginBuilder& ob): 
-    _s(s), _o(o), _ob(ob)
+StatorBuilder::StatorBuilder(const Config& cfg, const DerivedStatorConfig& scfg, const OriginBuilder& obuilder): 
+    _cfg(cfg), _scfg(scfg), _obuilder(obuilder)
 {
 
     std::cout << "Building Stator ..." << '\n';
@@ -21,22 +21,22 @@ StatorBuilders::StatorBuilders(const DerivedStatorParams& s, const params::Origi
 
 
 
-void StatorBuilders::build_stator_annulus() {
+void StatorBuilder::build_stator_annulus() {
 
     int s_stator_outer = occ::addDisk(
-        _o.x, 
-        _o.y, 
-        _o.z, 
-        _s.r_so,
-        _s.r_so
+        _cfg.origin.x, 
+        _cfg.origin.y, 
+        _cfg.origin.z, 
+        _cfg.stator.r_so,
+        _cfg.stator.r_so
     );
 
     int s_stator_inner = occ::addDisk(
-        _o.x, 
-        _o.y, 
-        _o.z, 
-        _s.r_si,
-        _s.r_si
+        _cfg.origin.x, 
+        _cfg.origin.y, 
+        _cfg.origin.z, 
+        _cfg.stator.r_si,
+        _cfg.stator.r_si
     );
 
     std::vector<std::pair<int, int>> stator_cut_result;
@@ -55,17 +55,17 @@ void StatorBuilders::build_stator_annulus() {
 
 
 
-void StatorBuilders::build_slot_vertices() {
+void StatorBuilder::build_slot_vertices() {
 
     const std::array<std::pair<double, double>, 8> slot_pt_data = {{
-        {_s.r_sb(),    _s.theta_sb() / 2.0},
-        {_s.r_sn(),    _s.theta_sn() / 2.0},
-        {_s.r_sm(),    _s.theta_s() / 2.0},
-        {_s.r_so,      _s.theta_s() / 2.0},
-        {_s.r_so,      _s.theta_p() / 2.0},
-        {_s.r_so,      _s.theta_p() - (_s.theta_s() / 2.0)},
-        {_s.r_sm(),    _s.theta_p() - (_s.theta_s() / 2.0)},
-        {_s.r_sn(),    _s.theta_p() - (_s.theta_sn() / 2.0)},
+        {_scfg.r_sb(),      _scfg.theta_sb() / 2.0},
+        {_scfg.r_sn(),      _scfg.theta_sn() / 2.0},
+        {_scfg.r_sm(),      _scfg.theta_s() / 2.0},
+        {_cfg.stator.r_so,  _scfg.theta_s() / 2.0},
+        {_cfg.stator.r_so,  _scfg.theta_p() / 2.0},
+        {_cfg.stator.r_so,  _scfg.theta_p() - (_scfg.theta_s() / 2.0)},
+        {_scfg.r_sm(),      _scfg.theta_p() - (_scfg.theta_s() / 2.0)},
+        {_scfg.r_sn(),      _scfg.theta_p() - (_scfg.theta_sn() / 2.0)},
     }};
 
     std::array<std::pair<double, double>, 8> vertices{};
@@ -77,12 +77,12 @@ void StatorBuilders::build_slot_vertices() {
         double y = (r * cos(theta));
 
         // Normalizing r_so for accurate suface cut
-        if (r == _s.r_so) {
+        if (r == _cfg.stator.r_so) {
 
             double r_actual = sqrt(x*x + y*y);
 
-            x = x * (_s.r_so / r_actual);
-            y = y * (_s.r_so / r_actual);
+            x = x * (_cfg.stator.r_so / r_actual);
+            y = y * (_cfg.stator.r_so / r_actual);
 
         }
 
@@ -99,7 +99,7 @@ void StatorBuilders::build_slot_vertices() {
 
 
 
-void StatorBuilders::build_slot_profile() {
+void StatorBuilder::build_slot_profile() {
 
     int slot_l12 = occ::addLine(_slot_vertices.at(0), _slot_vertices.at(1));
     int slot_l23 = occ::addLine(_slot_vertices.at(1), _slot_vertices.at(2));
@@ -108,7 +108,7 @@ void StatorBuilders::build_slot_profile() {
     // Arc P4->P5->P6: the slot opening is an arc centered at origin, not taking chord
     int slot_open_arc  = occ::addCircleArc(
         _slot_vertices.at(3), 
-        _ob.p_origin().second, 
+        _obuilder.p_origin().second, 
         _slot_vertices.at(5)
     );
 
@@ -128,11 +128,11 @@ void StatorBuilders::build_slot_profile() {
 
 
 
-void StatorBuilders::replicate_slots() {
+void StatorBuilder::replicate_slots() {
 
     _all_slots.push_back({2, _s_slot});
 
-    for (int k = 1; k < _s.n_s; ++k) {
+    for (int k = 1; k < _cfg.stator.n_s; ++k) {
 
         std::vector<std::pair<int, int>> rotated;
 
@@ -141,7 +141,7 @@ void StatorBuilders::replicate_slots() {
             rotated,
             0, 0, 0,
             0, 0, 1,
-            k * _s.theta_p()
+            k * _scfg.theta_p()
         );
 
         _all_slots.push_back(rotated.at(0));
@@ -152,7 +152,7 @@ void StatorBuilders::replicate_slots() {
 
 
 
-void StatorBuilders::cut_slot_profiles() {
+void StatorBuilder::cut_slot_profiles() {
 
     std::vector<std::vector<std::pair<int,int>>> slot_cut_map;
 
@@ -167,7 +167,7 @@ void StatorBuilders::cut_slot_profiles() {
 
 
 
-void StatorBuilders::build() {
+void StatorBuilder::build() {
 
     build_stator_annulus();
     build_slot_vertices();
@@ -179,7 +179,7 @@ void StatorBuilders::build() {
 
 
 
-std::string StatorBuilders::field() const {
+std::string StatorBuilder::field() const {
 
     // lc(r) = lcmin​ + ((lcmax​−lcmin​) * (rso​−r / (​rso ​− rsb))​)
     // r = sqrt(x*x + y*y)
@@ -188,18 +188,18 @@ std::string StatorBuilders::field() const {
         "* (((Sign({1} - {0}) + 1) / 2) * ((Sign({0} - {2}) + 1) / 2)) "
         "+ 1e8 * (1 - (((Sign({1} - {0}) + 1) / 2) * ((Sign({0} - {2}) + 1) / 2)))",
         "sqrt(x*x+y*y)",
-        _s.r_so,
-        _s.r_si,
-        _s.s_mesh_min,
-        _s.s_mesh_max - _s.s_mesh_min,
-        _s.r_sb()
+        _cfg.stator.r_so,
+        _cfg.stator.r_si,
+        _cfg.stator.mesh_min,
+        _cfg.stator.mesh_max - _cfg.stator.mesh_min,
+        _scfg.r_sb()
     );
 
 }
 
 
 
-std::vector<std::pair<int,int>> StatorBuilders::s_stator_slotted() const {
+std::vector<std::pair<int,int>> StatorBuilder::s_stator_slotted() const {
     return _s_stator_slotted;
 }
 

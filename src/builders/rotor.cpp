@@ -1,29 +1,27 @@
-# include <iostream>
 # include <format>
 
 # include <gmsh.h>
 
-# include "rotor/builders.hpp"
-
+# include "builders/rotor.hpp"
 
 
 namespace occ = gmsh::model::occ;
 
 
 
-RotorBuilders::RotorBuilders(const params::OriginParams& o, const OriginBuilder& ob, const DerivedRotorParams& r): 
-    _o(o), _ob(ob), _r(r)
+RotorBuilder::RotorBuilder(const Config& cfg, const DerivedRotorConfig& rcfg, const OriginBuilder& obuilder): 
+    _cfg(cfg), _rcfg(rcfg), _obuilder(obuilder)
 {};
 
 
 
-void RotorBuilders::build_rotor_back_annulus() {
+void RotorBuilder::build_rotor_back_annulus() {
 
     std::vector<std::pair<int, int>> rotor_cut_results;
     std::vector<std::vector<std::pair<int, int>>> rotor_cut_results_map;
 
-    int s_outer = occ::addDisk(_o.x, _o.y, _o.z, _r.r_ro, _r.r_ro);
-    int s_inner = occ::addDisk(_o.x, _o.y, _o.z, _r.r_ri + _r.l_m, _r.r_ri + _r.l_m);
+    int s_outer = occ::addDisk(_cfg.origin.x, _cfg.origin.y, _cfg.origin.z, _cfg.rotor.r_ro, _cfg.rotor.r_ro);
+    int s_inner = occ::addDisk(_cfg.origin.x, _cfg.origin.y, _cfg.origin.z, _cfg.rotor.r_ri + _cfg.rotor.l_m, _cfg.rotor.r_ri + _cfg.rotor.l_m);
 
     occ::cut(
         {{2, s_outer}},
@@ -38,13 +36,13 @@ void RotorBuilders::build_rotor_back_annulus() {
 
 
 
-void RotorBuilders::build_rotor_pm_annulus() {
+void RotorBuilder::build_rotor_pm_annulus() {
 
     std::vector<std::pair<int, int>> pm_disk_cut_results;
     std::vector<std::vector<std::pair<int, int>>> pm_disk_cut_results_map;
 
-    int s_outer = occ::addDisk(_o.x, _o.y, _o.z, _r.r_mo(), _r.r_mo());
-    int s_inner = occ::addDisk(_o.x, _o.y, _o.z, _r.r_ri, _r.r_ri);
+    int s_outer = occ::addDisk(_cfg.origin.x, _cfg.origin.y, _cfg.origin.z, _rcfg.r_mo(), _rcfg.r_mo());
+    int s_inner = occ::addDisk(_cfg.origin.x, _cfg.origin.y, _cfg.origin.z, _cfg.rotor.r_ri, _cfg.rotor.r_ri);
 
     occ::cut(
         {{2, s_outer}},
@@ -59,13 +57,13 @@ void RotorBuilders::build_rotor_pm_annulus() {
 
 
 
-void RotorBuilders::build_polegap_vertices() {
+void RotorBuilder::build_polegap_vertices() {
 
     const std::array<std::pair<double, double>, 4> polegap_pt_data = {{
-        {_r.r_ri,   _r.theta_m / 2.0},
-        {_r.r_mo(), _r.theta_m / 2.0},
-        {_r.r_mo(), _r.theta_p() - (_r.theta_m / 2.0)},
-        {_r.r_ri,   _r.theta_p() - (_r.theta_m / 2.0)},
+        {_cfg.rotor.r_ri, _cfg.rotor.theta_m / 2.0},
+        {_rcfg.r_mo(),    _cfg.rotor.theta_m / 2.0},
+        {_rcfg.r_mo(),    _rcfg.theta_p() - (_cfg.rotor.theta_m / 2.0)},
+        {_cfg.rotor.r_ri, _rcfg.theta_p() - (_cfg.rotor.theta_m / 2.0)},
     }};
 
     std::array<std::pair<double, double>, 4> vertices{};
@@ -77,7 +75,7 @@ void RotorBuilders::build_polegap_vertices() {
         double y = (r * cos(theta));
 
         // Normalizing r_so for accurate suface cut
-        if (r == _r.r_ri || r == _r.r_mo()) {
+        if (r == _cfg.rotor.r_ri || r == _rcfg.r_mo()) {
 
             double r_actual = sqrt(x*x + y*y);
 
@@ -87,11 +85,7 @@ void RotorBuilders::build_polegap_vertices() {
         }
 
         double r_check = sqrt(x*x + y*y);
-        std::cout << "r_check: " << r_check << " expected: " << r << '\n';
-
         vertices.at(i) = {x, y};
-
-        std::cout << "P" << i+1 << ": " << x << ", " << y << '\n';
 
         _polegap_vertices.at(i) = occ::addPoint(x, y, 0);
         i++;
@@ -102,14 +96,14 @@ void RotorBuilders::build_polegap_vertices() {
 
 
 
-void RotorBuilders::build_polegap_profile() {
+void RotorBuilder::build_polegap_profile() {
 
     int polegap_l12 = occ::addLine(_polegap_vertices.at(0), _polegap_vertices.at(1));
 
     // Arc P2->P3: the polegap opening at r_mo is an arc centered at origin, not taking chord
     int polegap_c23  = occ::addCircleArc(
         _polegap_vertices.at(1), 
-        _ob.p_origin().second, 
+        _obuilder.p_origin().second, 
         _polegap_vertices.at(2)
     );
 
@@ -118,7 +112,7 @@ void RotorBuilders::build_polegap_profile() {
     // Arc P4->P1: the polegap opening at r_ri is an arc centered at origin, not taking chord
     int polegap_c41  = occ::addCircleArc(
         _polegap_vertices.at(3), 
-        _ob.p_origin().second, 
+        _obuilder.p_origin().second, 
         _polegap_vertices.at(0)
     );
 
@@ -132,11 +126,11 @@ void RotorBuilders::build_polegap_profile() {
 
 
 
-void RotorBuilders::replicate_polegaps() {
+void RotorBuilder::replicate_polegaps() {
 
     _all_polegaps.push_back({2, _s_polegap});
 
-    for (int k = 1; k < _r.n_m; ++k) {
+    for (int k = 1; k < _cfg.rotor.n_m; ++k) {
 
         std::vector<std::pair<int, int>> rotated;
 
@@ -145,7 +139,7 @@ void RotorBuilders::replicate_polegaps() {
             rotated,
             0, 0, 0,
             0, 0, 1,
-            k * _r.theta_p()
+            k * _rcfg.theta_p()
         );
 
         _all_polegaps.push_back(rotated.at(0));
@@ -156,7 +150,7 @@ void RotorBuilders::replicate_polegaps() {
 
 
 
-void RotorBuilders::cut_polegap_profiles() {
+void RotorBuilder::cut_polegap_profiles() {
 
     std::vector<std::vector<std::pair<int,int>>> polegap_cut_map;
 
@@ -171,7 +165,7 @@ void RotorBuilders::cut_polegap_profiles() {
 
 
 
-void RotorBuilders::build() {
+void RotorBuilder::build() {
 
     build_rotor_back_annulus();
     build_rotor_pm_annulus();
@@ -183,7 +177,7 @@ void RotorBuilders::build() {
 }
 
 
-std::string RotorBuilders::field_yoke() const {
+std::string RotorBuilder::field_yoke() const {
 
     // lc(r) = lcmin​ + ((lcmax ​− lcmin​) * (r - r_min / (​r_max ​− r_min))​)
     // r = sqrt(x*x + y*y)
@@ -192,16 +186,16 @@ std::string RotorBuilders::field_yoke() const {
         "* (((Sign({0} - {1}) + 1) / 2) * ((Sign({2} - {0}) + 1) / 2))"
         "+ 1e8 * (1 - (((Sign({0} - {1}) + 1) / 2) * ((Sign({2} - {0}) + 1) / 2)))",
         "sqrt(x*x+y*y)",
-        _r.r_mo(),
-        _r.r_ro,
-        _r.yoke_mesh_min,
-        _r.yoke_mesh_max - _r.yoke_mesh_min
+        _rcfg.r_mo(),
+        _cfg.rotor.r_ro,
+        _cfg.rotor.yoke_mesh_min,
+        _cfg.rotor.yoke_mesh_max - _cfg.rotor.yoke_mesh_min
     );
 
 }
 
 
-std::string RotorBuilders::field_pm() const {
+std::string RotorBuilder::field_pm() const {
 
     // lc(r) = lcmin​ + ((lcmax ​− lcmin​) * (r - r_min / (​r_max ​− r_min))​)
     // r = sqrt(x*x + y*y)
@@ -210,10 +204,10 @@ std::string RotorBuilders::field_pm() const {
         "* (((Sign({0} - {1}) + 1) / 2) * ((Sign({2} - {0}) + 1) / 2))"
         "+ 1e8 * (1 - (((Sign({0} - {1}) + 1) / 2) * ((Sign({2} - {0}) + 1) / 2)))",
         "sqrt(x*x+y*y)",
-        _r.r_ri,
-        _r.r_mo(),
-        _r.pm_mesh_min,
-        _r.pm_mesh_max - _r.pm_mesh_min
+        _cfg.rotor.r_ri,
+        _rcfg.r_mo(),
+        _cfg.rotor.pm_mesh_min,
+        _cfg.rotor.pm_mesh_max - _cfg.rotor.pm_mesh_min
     );
 
 }
@@ -221,13 +215,13 @@ std::string RotorBuilders::field_pm() const {
 
 
 
-std::pair<int, int> RotorBuilders::s_rotor_back() const {
+std::pair<int, int> RotorBuilder::s_rotor_back() const {
     return {2, _s_rotor_back};
 }
 
 
 
-std::vector<std::pair<int,int>> RotorBuilders::s_rotor_cut() const {
+std::vector<std::pair<int,int>> RotorBuilder::s_rotor_cut() const {
     return _s_rotor_cut;
 }
 

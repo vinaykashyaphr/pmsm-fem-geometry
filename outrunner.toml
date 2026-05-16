@@ -1,0 +1,39 @@
+[origin]
+    x = 0.0     # (mm)
+    y = 0.0     # (mm)
+    z = 0.0     # (mm)
+
+
+[stator]
+    r_so        = 80.0      # Stator outer radius (mm)
+    r_si        = 27.0      # Stator inner radius (mm)
+    w_tb        = 11.0      # Stator tooth width (mm)
+    w_s         = 2.8       # Slot opening width (mm)
+    d1          = 5.0       # Slot shoe depth (mm)
+    d2          = 15.0      # Slot shoe ramp angle (degrees)
+    n_s         = 18        # Number of slots
+    mesh_min    = 0.5       # mesh size at the tip of stator tooth (mm)
+    mesh_max    = 2.0       # mesh size at the stator yoke (mm)
+
+
+
+[airgap]
+    g           = 0.5       # Airgap width (mm)
+    mesh_size   = 0.1       # uniform mesh size for airgap (mm)
+
+
+
+[rotor]
+    r_ri        = 80.5      # Rotor inner radius (mm)
+    r_ro        = 93.5      # Rotor outer radius (mm)
+    l_m         = 3.0       # Magnet thickness (mm)
+    theta_m     = 17.0      # Magnet arc (degrees)
+    n_m         = 20        # Number of poles
+
+    pm_mesh_min = 0.3       # mesh size for pm pole near airgap
+    pm_mesh_max = 1.0       # mesh size for pm pole near rotor yoke
+
+    yoke_mesh_min = 1.0     # mesh size of rotor yoke near pm pole
+    yoke_mesh_max = 3.0     # mesh size of rotor yoke near rotor outermost surface
+
+

@@ -1,7 +1,6 @@
 # include <gmsh.h>
-# include <iostream>
 
-# include "mesh_builder.hpp"
+# include "processors/meshing.hpp"
 
 
 namespace mesh = gmsh::model::mesh;
@@ -9,11 +8,7 @@ namespace option = gmsh::option;
 
 
 
-MeshBuilder::MeshBuilder() {
-
-    std::cout << "Meshing ..." << '\n';
-
-}; 
+MeshBuilder::MeshBuilder() {}; 
 
 
 

@@ -5,13 +5,13 @@
 # include <array>
 # include <vector>
 
-# include "params.hpp"
-# include "rotor/derived_params.hpp"
-# include "origin/builders.hpp"
+# include "config/config.hpp"
+# include "params/rotor.hpp"
+# include "builders/origin.hpp"
 
 
 
-class RotorBuilders {
+class RotorBuilder {
 
     int _s_rotor_back = 0;
     int _s_rotor      = 0;
@@ -21,13 +21,13 @@ class RotorBuilders {
     std::array<int, 4> _polegap_vertices{};
     std::vector<std::pair<int, int>> _all_polegaps{};
 
-    const params::OriginParams& _o;
-    const OriginBuilder& _ob;
-    const DerivedRotorParams&  _r;
+    const Config& _cfg;
+    const DerivedRotorConfig&  _rcfg;
+    const OriginBuilder& _obuilder;
 
     public:
 
-        explicit RotorBuilders(const params::OriginParams& o, const OriginBuilder& ob, const DerivedRotorParams& r);
+        explicit RotorBuilder(const Config& cfg, const DerivedRotorConfig& rcfg, const OriginBuilder& obuilder);
 
         void build_rotor_back_annulus();
         void build_rotor_pm_annulus();

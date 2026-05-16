@@ -6,17 +6,17 @@
 # include <gmsh.h>
 # include <utility>
 
-# include "params.hpp"
-# include "stator/derived_params.hpp"
-# include "origin/builders.hpp"
+# include "config/config.hpp"
+# include "params/stator.hpp"
+# include "builders/origin.hpp"
 
 
 
-class StatorBuilders {
+class StatorBuilder {
 
-    const DerivedStatorParams&  _s;
-    const params::OriginParams& _o;
-    const OriginBuilder& _ob;
+    const Config& _cfg;
+    const DerivedStatorConfig&  _scfg;
+    const OriginBuilder& _obuilder;
 
     std::array<int, 8> _slot_vertices{};
     std::vector<std::pair<int, int>> _all_slots{};
@@ -33,7 +33,7 @@ class StatorBuilders {
 
     public:
 
-        explicit StatorBuilders(const DerivedStatorParams& s, const params::OriginParams& o, const OriginBuilder& ob);
+        explicit StatorBuilder(const Config& cfg, const DerivedStatorConfig& scfg, const OriginBuilder& ob);
         void build();
         std::string field() const;
 
