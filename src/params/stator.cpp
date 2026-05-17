@@ -2,7 +2,7 @@
 # include <numbers>
 
 # include "params/stator.hpp"
-# include "config/config.hpp"
+# include "params/config.hpp"
 # include "utils/utils.hpp"
 
 # define LOG(var, unit) Logger::get().log(var, #var, unit)

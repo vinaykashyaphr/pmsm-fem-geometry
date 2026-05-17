@@ -1,6 +1,6 @@
 # include <gmsh.h>
 # include "processors/naming.hpp"
-# include "config/config.hpp"
+# include "params/config.hpp"
 # include "builders/rotor.hpp"
 
 

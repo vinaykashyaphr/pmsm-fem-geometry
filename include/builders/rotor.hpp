@@ -5,7 +5,7 @@
 # include <array>
 # include <vector>
 
-# include "config/config.hpp"
+# include "params/config.hpp"
 # include "params/rotor.hpp"
 # include "builders/origin.hpp"
 

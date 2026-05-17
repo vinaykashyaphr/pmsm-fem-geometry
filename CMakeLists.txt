@@ -46,7 +46,7 @@ add_executable(
     simple_outrunner
     ${SRC_DIR}/main.cpp
     ${SRC_DIR}/utils/utils.cpp
-    ${SRC_DIR}/config/config.cpp
+    ${SRC_DIR}/params/config.cpp
     ${SRC_DIR}/params/stator.cpp
     ${SRC_DIR}/params/rotor.cpp
     ${SRC_DIR}/builders/origin.cpp

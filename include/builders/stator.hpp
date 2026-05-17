@@ -6,7 +6,7 @@
 # include <gmsh.h>
 # include <utility>
 
-# include "config/config.hpp"
+# include "params/config.hpp"
 # include "params/stator.hpp"
 # include "builders/origin.hpp"
 

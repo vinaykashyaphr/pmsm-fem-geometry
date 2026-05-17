@@ -1,9 +1,10 @@
 # include <filesystem>
+# include <stdexcept>
 
 # include <gmsh.h>
 
-# include "config/config.hpp"
-# include "arch.hpp"
+# include "params/config.hpp"
+# include "params/params.hpp"
 
 # include "params/stator.hpp"
 # include "params/rotor.hpp"
@@ -108,7 +109,13 @@ void name(const Builders& builders) {
 
 int main(int argc, char* argv[]) {
 
-    const fs::path config_filepath  = (argc == 2) ? argv[1] : "outrunner.toml";
+    if (argc > 3)
+        throw std::invalid_argument(
+            "Usage: " + std::string(argv[0]) + "<input.toml> <output.msh|output.vtk>\n"
+        );
+
+    const fs::path config_filepath = (argc >= 2) ? argv[1] : "outrunner.toml";
+    const fs::path output_filepath = (argc == 3) ? argv[2] : "";
 
     Params params = configure(config_filepath);
 
@@ -123,7 +130,9 @@ int main(int argc, char* argv[]) {
     mesh(builders);
     name(builders);
 
-    gmsh::fltk::run();
+    if (!output_filepath.empty()) gmsh::write(output_filepath.string());
+    else gmsh::fltk::run();
+
     gmsh::finalize();
 
 }
