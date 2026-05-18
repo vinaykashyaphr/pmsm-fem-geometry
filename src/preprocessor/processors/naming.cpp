@@ -1,7 +1,7 @@
 # include <gmsh.h>
-# include "processors/naming.hpp"
-# include "params/config.hpp"
-# include "builders/rotor.hpp"
+# include "preprocessor/processors/naming.hpp"
+# include "preprocessor/params/config.hpp"
+# include "preprocessor/builders/rotor.hpp"
 
 
 namespace model = gmsh::model;

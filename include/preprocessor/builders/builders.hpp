@@ -1,8 +1,8 @@
 # pragma once
 
-# include "builders/stator.hpp"
-# include "builders/airgap.hpp"
-# include "builders/rotor.hpp"
+# include "preprocessor/builders/stator.hpp"
+# include "preprocessor/builders/airgap.hpp"
+# include "preprocessor/builders/rotor.hpp"
 
 
 

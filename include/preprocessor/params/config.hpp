@@ -96,6 +96,7 @@ struct RotorConfig {
 };
 
 
+
 struct NameGroups {
 
     const std::string origin = "origin";
@@ -111,7 +112,7 @@ struct NameGroups {
 
 struct Config {
 
-    Config(const std::string& config_file);
+    explicit Config(const std::string& config_file);
     static void log_param(const double& qty, std::string cls, std::string name, std::string unit);
 
     static NameGroups tag;

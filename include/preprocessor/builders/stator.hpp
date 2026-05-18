@@ -6,9 +6,9 @@
 # include <gmsh.h>
 # include <utility>
 
-# include "params/config.hpp"
-# include "params/stator.hpp"
-# include "builders/origin.hpp"
+# include "preprocessor/params/config.hpp"
+# include "preprocessor/params/stator.hpp"
+# include "preprocessor/builders/origin.hpp"
 
 
 

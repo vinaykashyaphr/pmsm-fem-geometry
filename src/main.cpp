@@ -3,19 +3,19 @@
 
 # include <gmsh.h>
 
-# include "params/config.hpp"
-# include "params/params.hpp"
+# include "preprocessor/params/config.hpp"
+# include "preprocessor/params/params.hpp"
 
-# include "params/stator.hpp"
-# include "params/rotor.hpp"
+# include "preprocessor/params/stator.hpp"
+# include "preprocessor/params/rotor.hpp"
 
-# include "builders/origin.hpp"
-# include "builders/stator.hpp"
-# include "builders/airgap.hpp"
-# include "builders/rotor.hpp"
+# include "preprocessor/builders/origin.hpp"
+# include "preprocessor/builders/stator.hpp"
+# include "preprocessor/builders/airgap.hpp"
+# include "preprocessor/builders/rotor.hpp"
 
-# include "processors/meshing.hpp"
-# include "processors/naming.hpp"
+# include "preprocessor/processors/meshing.hpp"
+# include "preprocessor/processors/naming.hpp"
 
 
 namespace model = gmsh::model;

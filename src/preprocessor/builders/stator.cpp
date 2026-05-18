@@ -3,7 +3,7 @@
 
 # include <gmsh.h>
 
-# include "builders/stator.hpp"
+# include "preprocessor/builders/stator.hpp"
 
 
 namespace model = gmsh::model;

@@ -2,7 +2,7 @@
 
 # include <gmsh.h>
 
-# include "builders/rotor.hpp"
+# include "preprocessor/builders/rotor.hpp"
 
 
 namespace occ = gmsh::model::occ;

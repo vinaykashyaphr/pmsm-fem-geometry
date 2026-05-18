@@ -1,9 +1,9 @@
 # include <cmath>
 # include <numbers>
 
-# include "params/stator.hpp"
-# include "params/config.hpp"
-# include "utils/utils.hpp"
+# include "preprocessor/params/stator.hpp"
+# include "preprocessor/params/config.hpp"
+# include "preprocessor/utils/utils.hpp"
 
 # define LOG(var, unit) Logger::get().log(var, #var, unit)
 

@@ -1,7 +1,7 @@
 # include <numbers>
 
-# include "params/rotor.hpp"
-# include "utils/utils.hpp"
+# include "preprocessor/params/rotor.hpp"
+# include "preprocessor/utils/utils.hpp"
 
 # define LOG(var, unit) Logger::get().log(var, #var, unit)
 
