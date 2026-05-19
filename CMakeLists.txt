@@ -45,16 +45,17 @@ set_target_properties(gmsh PROPERTIES
 add_executable(
     simple_outrunner
     ${SRC_DIR}/main.cpp
-    ${SRC_DIR}/utils/utils.cpp
-    ${SRC_DIR}/params/config.cpp
-    ${SRC_DIR}/params/stator.cpp
-    ${SRC_DIR}/params/rotor.cpp
-    ${SRC_DIR}/builders/origin.cpp
-    ${SRC_DIR}/builders/stator.cpp
-    ${SRC_DIR}/builders/airgap.cpp
-    ${SRC_DIR}/builders/rotor.cpp
-    ${SRC_DIR}/processors/meshing.cpp
-    ${SRC_DIR}/processors/naming.cpp
+    ${SRC_DIR}/preprocessor/preprocessor.cpp
+    ${SRC_DIR}/preprocessor/utils/utils.cpp
+    ${SRC_DIR}/preprocessor/params/config.cpp
+    ${SRC_DIR}/preprocessor/params/stator.cpp
+    ${SRC_DIR}/preprocessor/params/rotor.cpp
+    ${SRC_DIR}/preprocessor/builders/origin.cpp
+    ${SRC_DIR}/preprocessor/builders/stator.cpp
+    ${SRC_DIR}/preprocessor/builders/airgap.cpp
+    ${SRC_DIR}/preprocessor/builders/rotor.cpp
+    ${SRC_DIR}/preprocessor/processors/meshing.cpp
+    ${SRC_DIR}/preprocessor/processors/naming.cpp
 )
 
 target_include_directories(

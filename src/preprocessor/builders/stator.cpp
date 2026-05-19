@@ -11,11 +11,11 @@ namespace occ = model::occ;
 
 
 
-StatorBuilder::StatorBuilder(const Config& cfg, const DerivedStatorConfig& scfg, const OriginBuilder& obuilder): 
-    _cfg(cfg), _scfg(scfg), _obuilder(obuilder)
+StatorBuilder::StatorBuilder(const Config& cfg, const DerivedStatorConfig& scfg, const int origin_tag): 
+    _cfg(cfg), _scfg(scfg), _origin_tag(origin_tag)
 {
 
-    std::cout << "Building Stator ..." << '\n';
+    build();
 
 }
 
@@ -108,7 +108,7 @@ void StatorBuilder::build_slot_profile() {
     // Arc P4->P5->P6: the slot opening is an arc centered at origin, not taking chord
     int slot_open_arc  = occ::addCircleArc(
         _slot_vertices.at(3), 
-        _obuilder.p_origin().second, 
+        _origin_tag, 
         _slot_vertices.at(5)
     );
 

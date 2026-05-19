@@ -7,7 +7,6 @@
 
 # include "preprocessor/params/config.hpp"
 # include "preprocessor/params/rotor.hpp"
-# include "preprocessor/builders/origin.hpp"
 
 
 
@@ -23,11 +22,11 @@ class RotorBuilder {
 
     const Config& _cfg;
     const DerivedRotorConfig&  _rcfg;
-    const OriginBuilder& _obuilder;
+    const int _origin_tag;
 
     public:
 
-        explicit RotorBuilder(const Config& cfg, const DerivedRotorConfig& rcfg, const OriginBuilder& obuilder);
+        explicit RotorBuilder(const Config& cfg, const DerivedRotorConfig& rcfg, const int origin_tag);
 
         void build_rotor_back_annulus();
         void build_rotor_pm_annulus();

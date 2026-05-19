@@ -9,9 +9,11 @@ namespace occ = gmsh::model::occ;
 
 
 
-RotorBuilder::RotorBuilder(const Config& cfg, const DerivedRotorConfig& rcfg, const OriginBuilder& obuilder): 
-    _cfg(cfg), _rcfg(rcfg), _obuilder(obuilder)
-{};
+RotorBuilder::RotorBuilder(const Config& cfg, const DerivedRotorConfig& rcfg, const int origin_tag): 
+    _cfg(cfg), _rcfg(rcfg), _origin_tag(origin_tag)
+{
+    build();
+};
 
 
 
@@ -103,7 +105,7 @@ void RotorBuilder::build_polegap_profile() {
     // Arc P2->P3: the polegap opening at r_mo is an arc centered at origin, not taking chord
     int polegap_c23  = occ::addCircleArc(
         _polegap_vertices.at(1), 
-        _obuilder.p_origin().second, 
+        _origin_tag, 
         _polegap_vertices.at(2)
     );
 
@@ -112,7 +114,7 @@ void RotorBuilder::build_polegap_profile() {
     // Arc P4->P1: the polegap opening at r_ri is an arc centered at origin, not taking chord
     int polegap_c41  = occ::addCircleArc(
         _polegap_vertices.at(3), 
-        _obuilder.p_origin().second, 
+        _origin_tag, 
         _polegap_vertices.at(0)
     );
 

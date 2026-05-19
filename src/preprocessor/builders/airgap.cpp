@@ -12,7 +12,9 @@ namespace occ = model::occ;
 
 AirGapBuilder::AirGapBuilder(const Config& cfg):
     _cfg(cfg)
-{}
+{
+    build();
+}
 
 
 

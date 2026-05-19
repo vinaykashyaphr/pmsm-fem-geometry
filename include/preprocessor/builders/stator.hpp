@@ -8,7 +8,6 @@
 
 # include "preprocessor/params/config.hpp"
 # include "preprocessor/params/stator.hpp"
-# include "preprocessor/builders/origin.hpp"
 
 
 
@@ -16,7 +15,7 @@ class StatorBuilder {
 
     const Config& _cfg;
     const DerivedStatorConfig&  _scfg;
-    const OriginBuilder& _obuilder;
+    const int _origin_tag;
 
     std::array<int, 8> _slot_vertices{};
     std::vector<std::pair<int, int>> _all_slots{};
@@ -33,7 +32,7 @@ class StatorBuilder {
 
     public:
 
-        explicit StatorBuilder(const Config& cfg, const DerivedStatorConfig& scfg, const OriginBuilder& ob);
+        explicit StatorBuilder(const Config& cfg, const DerivedStatorConfig& scfg, const int origin_tag);
         void build();
         std::string field() const;
 

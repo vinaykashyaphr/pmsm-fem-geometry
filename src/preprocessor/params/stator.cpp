@@ -9,7 +9,7 @@
 
 
 
-DerivedStatorConfig::DerivedStatorConfig(const StatorConfig& cfg): 
+DerivedStatorConfig::DerivedStatorConfig(const StatorConfig cfg): 
     _cfg(cfg)
 {
 

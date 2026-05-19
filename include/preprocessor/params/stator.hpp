@@ -6,7 +6,7 @@
 
 class DerivedStatorConfig {
 
-    const StatorConfig& _cfg;
+    const StatorConfig _cfg;
 
     double _theta_p    = 0.0;
     double _theta_o    = 0.0;
@@ -35,7 +35,7 @@ class DerivedStatorConfig {
 
     public:
 
-        explicit DerivedStatorConfig(const StatorConfig& cfg);
+        explicit DerivedStatorConfig(const StatorConfig cfg);
 
         double theta_p()    const;
         double theta_o()    const;

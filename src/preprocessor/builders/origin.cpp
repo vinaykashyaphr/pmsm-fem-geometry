@@ -8,7 +8,9 @@ namespace occ = gmsh::model::occ;
 
 
 OriginBuilder::OriginBuilder(const OriginConfig& cfg): _cfg(cfg) 
-{}
+{
+    build();
+}
 
 
 

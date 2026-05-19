@@ -7,7 +7,7 @@
 
 
 
-DerivedRotorConfig::DerivedRotorConfig(const RotorConfig& cfg):
+DerivedRotorConfig::DerivedRotorConfig(const RotorConfig cfg):
     _cfg(cfg)
 {
 

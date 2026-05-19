@@ -8,9 +8,9 @@
 
 struct Params {
 
-    Config cfg;
-    DerivedStatorConfig scfg;
-    DerivedRotorConfig  rcfg;
+    const Config cfg;
+    const DerivedStatorConfig scfg;
+    const DerivedRotorConfig  rcfg;
 
     Params(const Config& c, const DerivedStatorConfig& s, const DerivedRotorConfig& r):
         cfg(c), scfg(s), rcfg(r)

@@ -6,7 +6,7 @@
 
 class DerivedRotorConfig {
 
-    const RotorConfig& _cfg;
+    const RotorConfig _cfg;
 
     double _theta_p    = 0.0;
     double _r_mo       = 0.0;
@@ -17,7 +17,7 @@ class DerivedRotorConfig {
 
     public:
 
-        explicit DerivedRotorConfig(const RotorConfig& cfg);
+        explicit DerivedRotorConfig(const RotorConfig cfg);
 
         double theta_p()    const;
         double r_mo()       const;

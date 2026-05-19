@@ -118,7 +118,7 @@ struct Config {
     static NameGroups tag;
 
     private:
-        toml::parse_result _cfg;
+        const toml::parse_result _cfg;
 
     public:
         OriginConfig origin {_cfg[tag.origin].as_table()};
