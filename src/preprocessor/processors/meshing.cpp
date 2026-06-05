@@ -29,7 +29,7 @@ void MeshBuilder::generate() {
     option::setNumber("Mesh.CharacteristicLengthFromCurvature", 0);
     option::setNumber("Mesh.CharacteristicLengthExtendFromBoundary", 0);
     option::setNumber("Mesh.CharacteristicLengthMin", 0.05);
-    option::setNumber("Mesh.CharacteristicLengthMax", 3.0);
+    option::setNumber("Mesh.CharacteristicLengthMax", 10.0);
 
     int f_min = mesh::field::add("Min");
 

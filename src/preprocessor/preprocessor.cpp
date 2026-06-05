@@ -48,8 +48,9 @@ Params Preprocessor::configure(const fs::path& config_file) {
     const Config cfg(config_file);
     const DerivedStatorConfig scfg(cfg.stator);
     const DerivedRotorConfig rcfg(cfg.rotor);
+    const FarFieldConfig fcfg(cfg.farfield);
 
-    return {cfg, scfg, rcfg};
+    return {cfg, scfg, rcfg, fcfg};
 
 }
 
@@ -60,6 +61,7 @@ void Preprocessor::optimize() {
     std::vector<std::pair<int,int>> all_surfaces = {
         _builders.abuilder.s_airgap(),
         _builders.rbuilder.s_rotor_back(),
+        _builders.fbuilder.s_farfield()
     };
 
     const auto& stator_slots = _builders.sbuilder.s_stator_slotted();
@@ -96,6 +98,7 @@ void Preprocessor::mesh() {
     mesh.add_region(_builders.abuilder.field());
     mesh.add_region(_builders.rbuilder.field_pm());
     mesh.add_region(_builders.rbuilder.field_yoke());
+    mesh.add_region(_builders.fbuilder.field());
     mesh.generate();
 
 }

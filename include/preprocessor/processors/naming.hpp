@@ -13,7 +13,6 @@ class GroupNamer {
 
     const Builders& _builders;
 
-
     const std::unordered_map<std::string, std::vector<std::pair<int, int>>> _names; 
 
     public:

@@ -54,8 +54,10 @@ add_executable(
     ${SRC_DIR}/preprocessor/builders/stator.cpp
     ${SRC_DIR}/preprocessor/builders/airgap.cpp
     ${SRC_DIR}/preprocessor/builders/rotor.cpp
+    ${SRC_DIR}/preprocessor/builders/farfield.cpp
     ${SRC_DIR}/preprocessor/processors/meshing.cpp
     ${SRC_DIR}/preprocessor/processors/naming.cpp
+    ${SRC_DIR}/core/reader/reader.cpp
 )
 
 target_include_directories(

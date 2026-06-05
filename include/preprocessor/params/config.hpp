@@ -97,14 +97,29 @@ struct RotorConfig {
 
 
 
+struct FarFieldConfig {
+
+    // Far field factor
+    double ff;
+
+    // Mesh sizes
+    double mesh_min;
+    double mesh_max;
+
+    explicit FarFieldConfig(const toml::table* t);
+};
+
+
+
 struct NameGroups {
 
-    const std::string origin = "origin";
-    const std::string stator = "stator";
-    const std::string airgap = "airgap";
-    const std::string rotor  = "rotor";
-    const std::string pole   = "pole";
-    const std::string yoke   = "yoke";
+    const std::string origin    = "origin";
+    const std::string stator    = "stator";
+    const std::string airgap    = "airgap";
+    const std::string rotor     = "rotor";
+    const std::string pole      = "pole";
+    const std::string yoke      = "yoke";
+    const std::string farfield  = "farfield";
 
 };
 
@@ -121,10 +136,11 @@ struct Config {
         const toml::parse_result _cfg;
 
     public:
-        OriginConfig origin {_cfg[tag.origin].as_table()};
-        StatorConfig stator {_cfg[tag.stator].as_table()};
-        AirGapConfig airgap {_cfg[tag.airgap].as_table()};
-        RotorConfig  rotor {_cfg[tag.rotor].as_table()};
+        OriginConfig origin     {_cfg[tag.origin].as_table()};
+        StatorConfig stator     {_cfg[tag.stator].as_table()};
+        AirGapConfig airgap     {_cfg[tag.airgap].as_table()};
+        RotorConfig  rotor      {_cfg[tag.rotor].as_table()};
+        FarFieldConfig farfield {_cfg[tag.farfield].as_table()};
 
 };
 

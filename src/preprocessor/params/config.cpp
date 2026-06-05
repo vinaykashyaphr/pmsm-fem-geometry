@@ -50,7 +50,7 @@ StatorConfig::StatorConfig(const toml::table* t):
     LOG(w_s, "mm");
     LOG(d1, "mm");
     LOG(d2, "deg");
-    LOG(n_s, "mm");
+    LOG(n_s, "<count>");
     LOG(mesh_min, "mm");
     LOG(mesh_max, "mm");
 
@@ -90,12 +90,24 @@ RotorConfig::RotorConfig(const toml::table* t):
     LOG(r_ro, "mm");
     LOG(l_m, "mm");
     LOG(theta_m, "deg");
-    LOG(n_m, "mm");
+    LOG(n_m, "<count>");
     LOG(pm_mesh_min, "mm");
     LOG(pm_mesh_max, "mm");
     LOG(yoke_mesh_min, "mm");
     LOG(yoke_mesh_max, "mm");
 
+}
+
+
+
+FarFieldConfig::FarFieldConfig(const toml::table* t):
+    ff((*t)["ff"].value<double>().value()),
+    mesh_min((*t)["mesh_min"].value<double>().value()),
+    mesh_max((*t)["mesh_max"].value<double>().value())
+{
+    LOG(ff, "<ratio>");
+    LOG(mesh_min, "mm");
+    LOG(mesh_max, "mm");
 }
 
 

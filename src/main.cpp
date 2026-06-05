@@ -2,6 +2,8 @@
 # include <stdexcept>
 
 # include "preprocessor/preprocessor.hpp"
+# include "core/reader/reader.hpp"
+# include "core/reader/mesh.hpp"
 
 
 namespace fs = std::filesystem;
@@ -22,6 +24,9 @@ int main(int argc, char* argv[]) {
     pre_processor.run();
     pre_processor.export_mesh(output_filepath);
     pre_processor.view_mesh();
+
+    MeshReader reader;
+    Mesh mesh = reader.read();
 
 }
 

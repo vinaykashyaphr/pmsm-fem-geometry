@@ -9,11 +9,12 @@ namespace model = gmsh::model;
 
 GroupNamer::GroupNamer(const Builders& builders): 
     _builders(builders), _names {
-        {Config::tag.origin, {builders.obuilder.p_origin()}},
-        {Config::tag.stator, {builders.sbuilder.s_stator_slotted()}},
-        {Config::tag.airgap, {builders.abuilder.s_airgap()}},
-        {Config::tag.pole,   {builders.rbuilder.s_rotor_cut()}},
-        {Config::tag.yoke,   {builders.rbuilder.s_rotor_back()}}
+        {Config::tag.origin,   {builders.obuilder.p_origin()}},
+        {Config::tag.stator,   {builders.sbuilder.s_stator_slotted()}},
+        {Config::tag.airgap,   {builders.abuilder.s_airgap()}},
+        {Config::tag.pole,     {builders.rbuilder.s_rotor_cut()}},
+        {Config::tag.yoke,     {builders.rbuilder.s_rotor_back()}},
+        {Config::tag.farfield, {builders.fbuilder.s_farfield()}}
     }
 {}
 

@@ -37,3 +37,10 @@
     yoke_mesh_max = 3.0     # mesh size of rotor yoke near rotor outermost surface
 
 
+
+[farfield]
+    ff          = 3.0       # farfield factor compared to rotor outer radius
+    mesh_min    = 3.0       # mesh size near rotor outer radius
+    mesh_max    = 7.0       # mesh size near farfield boundary
+
+
